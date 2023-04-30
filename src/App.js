@@ -22,36 +22,6 @@ const App = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    console.info("customers", customers);
-  }, [customers]);
-
-  const calculateCustomersRewards = useCallback(() => {
-    const customersRewards = [];
-    customers.forEach((customer) => {
-      let totalRewards = 0;
-      customer.transactions.forEach((transaction) => {
-        if (transaction.amount > 50 && transaction.amount <= 100) {
-          totalRewards += transaction.amount - 50;
-        } else if (transaction.amount > 100) {
-          totalRewards += 2 * (transaction.amount - 100) + 50;
-        }
-      });
-      customersRewards.push({
-        ...customer,
-        totalRewards,
-      });
-    });
-    return customersRewards;
-  }, [customers]);
-
-  const getMonthName = (monthNumber) => {
-    const date = new Date();
-    date.setMonth(monthNumber - 1);
-
-    return date.toLocaleString("en-US", { month: "long" });
-  };
-
   const calculatePeriodBetweenDates = useMemo(() => {
     const fromYear = startDate.getFullYear();
     const fromMonth = startDate.getMonth();
