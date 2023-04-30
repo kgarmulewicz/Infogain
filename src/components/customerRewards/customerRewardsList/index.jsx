@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import "./index.css";
 import { formatDate } from "../../utils";
 import { calculateSingleTransactionRewardsAmount } from "../customerRewards.utils";
@@ -31,3 +32,7 @@ const CustomerRewardsList = ({ customer: { transactions } }) => {
 };
 
 export default CustomerRewardsList;
+
+CustomerRewardsList.propTypes = {
+  customer: PropTypes.object,
+};
