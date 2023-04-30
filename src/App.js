@@ -2,25 +2,32 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "./App.css";
 import CustomerRewards from "./components/customerRewards";
 import { getCustomers } from "./api/customers/customers.query";
+import Spinner from "./components/spinner";
 
 const App = () => {
   const startDate = useMemo(() => new Date("2023-01-01"), []);
   const endDate = useMemo(() => new Date("2023-03-31"), []);
   const [customers, setCustomers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchData = useCallback(async () => {
+    try {
+      const customersData = await getCustomers(startDate, endDate);
+      if (customersData) {
+        setCustomers(customersData);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+    setIsLoading(false);
+  }, [startDate, endDate]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const test = await getCustomers(startDate, endDate);
-        if (test) {
-          setCustomers(test);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, []);
+    const interval = setInterval(() => {
+      fetchData();
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [fetchData]);
 
   const calculatePeriodBetweenDates = useMemo(() => {
     const fromYear = startDate.getFullYear();
@@ -33,11 +40,6 @@ const App = () => {
       let monthNum = year === fromYear ? fromMonth : 0;
       const monthLimit = year === toYear ? toMonth : 11;
 
-      const index = months.indexOf((dateYear) => dateYear === year);
-      if (index === -1) {
-        months.push(year);
-      }
-
       for (; monthNum <= monthLimit; monthNum++) {
         let month = monthNum + 1;
         months.push({ year, month });
@@ -49,13 +51,20 @@ const App = () => {
   return (
     <div className="App">
       <div className="customers-container">
-        {customers.length > 0 &&
-          customers.map((customer) => (
-            <CustomerRewards
-              customer={customer}
-              yearsAndMonths={calculatePeriodBetweenDates}
-            />
-          ))}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <>
+            {customers.length > 0 &&
+              customers.map((customer) => (
+                <CustomerRewards
+                  key={customer.id}
+                  customer={customer}
+                  yearsAndMonths={calculatePeriodBetweenDates}
+                />
+              ))}
+          </>
+        )}
       </div>
     </div>
   );

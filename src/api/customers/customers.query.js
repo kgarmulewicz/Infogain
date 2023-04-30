@@ -6,7 +6,7 @@ const fetchCustomers = async () => {
         Accept: "application/json",
       },
     });
-    const customers = await response.json();
+    const customers = response.json();
     return customers;
   } catch (error) {
     console.error(error);

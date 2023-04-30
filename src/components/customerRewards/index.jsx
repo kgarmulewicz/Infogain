@@ -12,7 +12,7 @@ const CustomerRewards = ({ customer, yearsAndMonths }) => {
 
   useEffect(() => {
     setRewardsPerMonths(remapData(customer, yearsAndMonths));
-  }, []);
+  }, [customer, yearsAndMonths]);
 
   const calculateRewardAmounts = useMemo(() => {
     const customerRewards = [];
@@ -39,7 +39,7 @@ const CustomerRewards = ({ customer, yearsAndMonths }) => {
   }, [calculateRewardAmounts]);
 
   return (
-    <div className="single-customer">
+    <div data-testid="customer-rewards" className="single-customer">
       <div className="transactions-container">
         <div
           className={
@@ -63,7 +63,7 @@ const CustomerRewards = ({ customer, yearsAndMonths }) => {
           Customer transactions summary:
           <div className="months-summary">
             {calculateRewardAmounts.map((month) => (
-              <div className="month-container">
+              <div key={month.name} className="month-container">
                 <div className="month-name">{month.name}:</div>
                 <div>{month.monthRewards}</div>
               </div>

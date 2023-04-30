@@ -15,9 +15,10 @@ export const remapData = (customer, yearsAndMonths) => {
   yearsAndMonths.forEach((date) => {
     const tempAmounts = [];
     customer.transactions.forEach((transaction) => {
+        const transactionDate = new Date(transaction.date);
       if (
-        transaction.date.getMonth() === date.month - 1 &&
-        transaction.date.getFullYear() === date.year
+        transactionDate.getMonth() === date.month - 1 &&
+        transactionDate.getFullYear() === date.year
       ) {
         tempAmounts.push(transaction.amount);
       }
