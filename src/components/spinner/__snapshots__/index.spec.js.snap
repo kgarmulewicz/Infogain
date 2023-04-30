@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Spinner /> Spinner match snapshot! 1`] = `undefined`;
+
+exports[`Spinner Component Spinner match snapshot! 1`] = `undefined`;

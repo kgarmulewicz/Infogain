@@ -1,0 +1,65 @@
+.transactions-container {
+  width: 100%;
+}
+
+.single-customer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.customer-container, .customer-container-active {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 20px 60px 20px 20px;
+    text-align: left;
+    border: none;
+    outline: none;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .customer-container:after, .customer-container-active:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: right;
+    right: 5px;
+    position: absolute;
+  }
+  
+  .customer-container-active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+  }
+  
+  .customer-container-active, .customer-container:hover {
+    background-color: #ccc;
+  }
+  
+  .panel {
+    padding: 20px;
+    background-color: white;
+    color: #a9a9a9;
+    overflow: hidden;
+    text-align: left;
+  }
+  
+  .months-summary {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .month-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .month-name {
+    margin-right: 5px;
+  }
