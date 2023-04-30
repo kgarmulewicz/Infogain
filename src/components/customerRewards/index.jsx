@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import PropTypes from 'prop-types';
 import "./index.css";
 import CustomerRewardsList from "./customerRewardsList";
 import {
@@ -73,3 +74,9 @@ const CustomerRewards = ({ customer, yearsAndMonths }) => {
 };
 
 export default CustomerRewards;
+
+CustomerRewards.propTypes = {
+  customer: PropTypes.object,
+  yearsAndMonths: PropTypes.array,
+};
+
