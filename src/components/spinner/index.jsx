@@ -3,10 +3,10 @@ import "./index.css";
 
 const Spinner = () => (
   <div data-testid="spinner" className="spinner-ring">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
+    <div role='progressbar'></div>
+    <div role='progressbar'></div>
+    <div role='progressbar'></div>
+    <div role='progressbar'></div>
   </div>
 );
 

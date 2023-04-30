@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import './index.css';
+import "./index.css";
 import CustomerRewardsList from "./customerRewardsList";
 import {
   calculateSingleTransactionRewardsAmount,
@@ -14,29 +14,25 @@ const CustomerRewards = ({ customer, yearsAndMonths }) => {
     setRewardsPerMonths(remapData(customer, yearsAndMonths));
   }, [customer, yearsAndMonths]);
 
-  const calculateRewardAmounts = useMemo(() => {
-    const customerRewards = [];
-    rewardsPerMonths?.forEach((payment) => {
-      let monthRewards = 0;
-      payment.transactions.forEach((transaction) => {
-        monthRewards =
-          monthRewards + calculateSingleTransactionRewardsAmount(transaction);
-      });
-      customerRewards.push({
-        ...payment,
-        monthRewards,
-      });
-    });
-    return customerRewards;
-  }, [rewardsPerMonths]);
+  const calculateRewardAmounts = useMemo(() =>
+    rewardsPerMonths?.map(({ name, transactions }) => ({
+      name,
+      monthRewards: transactions.reduce((acc, transaction) =>
+        acc + calculateSingleTransactionRewardsAmount(transaction), 0)
+    })),
+    [rewardsPerMonths],
+  );
 
-  const calculateTotalRewardsAmount = useMemo(() => {
-    let totalRewards = 0;
-    calculateRewardAmounts.forEach((month) => {
-      totalRewards = totalRewards + month.monthRewards;
-    });
-    return totalRewards;
-  }, [calculateRewardAmounts]);
+  const calculateTotalRewardsAmount = useMemo(
+    () =>
+      calculateRewardAmounts.reduce(
+        (acc, { monthRewards }) => acc + monthRewards,
+        0
+      ),
+    [calculateRewardAmounts]
+  );
+
+  const toggleDetailsVisibility = () => setIsDetailsVisible(prevState => !prevState);
 
   return (
     <div data-testid="customer-rewards" className="single-customer">
@@ -47,7 +43,7 @@ const CustomerRewards = ({ customer, yearsAndMonths }) => {
               ? "customer-container-active"
               : "customer-container"
           }
-          onClick={() => setIsDetailsVisible(!isDetailsVisible)}
+          onClick={toggleDetailsVisibility}
         >
           <div className="customer-details">
             {`${customer.firstName} ${customer.lastName}`}
