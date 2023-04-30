@@ -23,10 +23,10 @@ const App = () => {
   }, [startDate, endDate]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timeout = setTimeout(() => {
       fetchData();
     }, 5000);
-    return () => clearInterval(interval);
+    return () => clearInterval(timeout);
   }, [fetchData]);
 
   const calculatePeriodBetweenDates = useMemo(() => {
